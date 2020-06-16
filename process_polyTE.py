@@ -1,3 +1,5 @@
+#Current script for apocrita
+
 import mappy as mp
 from output2 import SAMBAMWriter
 import process_reads2
