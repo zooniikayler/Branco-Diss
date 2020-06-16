@@ -1,5 +1,5 @@
 """
-Module containing the class for Read
+Module containing the class for Read UNCHANGED FROM PATCHER
 """
 import re
 
