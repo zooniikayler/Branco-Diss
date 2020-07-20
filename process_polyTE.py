@@ -38,7 +38,15 @@ def filter_fastq(TE, R1, R2, out_fastq):
         r2 = iterator2.__next__()
 
         r1_maps = list(reference.map(r1.seq))
+        hits1 = [get_output_var(x) for x in r1_maps]
+        for hit in hits1:
+            if hit["blen"] < 0.95*len(r1.seq):
+                r1_maps = []
         r2_maps = list(reference.map(r2.seq))
+        hits2 = [get_output_var(x) for x in r2_maps]
+        for hix in hits2:
+            if hix["blen"] < 0.95*len(r2.seq):
+                r2_maps = []
 
         if (len(r1_maps) >= 1) and not (len(r2_maps) >= 1):
             SeqIO.write(r2, out_fastq, 'fastq')
