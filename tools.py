@@ -36,8 +36,42 @@ def batch(file, prefix):
     else:
         return print("File appropriate size")
 
-
-
-
 batch("from_scratch/sample_R1.fq", "sample-R1")
+
+from numpy import random
+
+def genSeq(seqLen, numSeq, probs=True):
+    '''Depends on random module'''
+    bases = 'ACGTX'
+    seqs = []
+    for i in range(numSeq):
+        seq = ''
+        for j in range(seqLen):
+            index = random.randint(0,4)
+            seq += bases[index]
+        seqs += [seq]
+    return seqs
+
+list_seq = genSeq(150, 10)
+
+def genFastq(seqs, fname, seqlen, outtype, copynum):
+    file_obj = open(fname, "w")
+    read_num = 1
+    qual = 'F' * seqlen
+    if outtype == "fastq":
+        for x in seqs:
+            file_obj.write(("@read" + str(read_num) + "\n" + x + "\n" + "+" + "\n" + qual + "\n")*copynum)
+            read_num = read_num + 1
+        file_obj.close()
+        print("File done")
+    if outtype == "fasta":
+        for x in seqs:
+            file_obj.write(">Chrm" + str(read_num) + "\n" + x + "\n")
+            read_num = read_num + 1
+        file_obj.close()
+
+
+genFastq(list_seq, "ref_MM_1.fa", 150, "fasta", 1)
+genFastq(list_seq, "reads_MM_1.fq", 150, "fastq", 2)
+
 
